@@ -12,15 +12,8 @@ UNKNOWN };
 struct Token {
     TokenType type;
     string value;
-// Helper function to print token type
-string typeToString()const {
-    switch (type) {
-        case OPEN_TAG: return "OPEN_TAG";
-        case CLOSE_TAG: return "CLOSE_TAG";
-        case TEXT_NODE: return "TEXT";
-        default: return "UNKNOWN";}
-        }
 };
 
 
 #endif
+
