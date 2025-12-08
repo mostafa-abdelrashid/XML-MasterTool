@@ -1,101 +1,78 @@
-string fixXMLErrors(const vector<Token>& tokens,
-    vector<int>& errorLines,
-    int& errorCount) {
-    stack<string> st;
-    string fixedXML = "";
-    errorCount = 0;
+#include <string>
+#include <vector>
+#include <stack>
+#include <sstream>
 
-    for (const Token& token : tokens) {
-        switch (token.type) {
+using namespace std;
 
-        case OPEN_TAG: {
-            string tagName = token.value;
+string fixErrors(const string& content, ErrorInfo& errors) {
+    istringstream stream(content);
+    string line;
+    stack<Token> tagStack;
+    vector<string> fixedLines;
+    int lineNum = 1;
 
-            // Possible missing closing slash
-            if (!st.empty() && st.top() == tagName) {
-                st.pop();
-                fixedXML += "</" + tagName + ">";
-                errorLines.push_back(token.line);
-                errorCount++;
-            }
-            else {
-                st.push(tagName);
-                fixedXML += "<" + tagName + ">";
-            }
-            break;
-        }
+    while (getline(stream, line)) {
+        vector<Token> tokens = tokenizeLine(line);
+        string fixedLine = "";
 
-        case CLOSE_TAG: {
-            string tagName = token.value;
+        for (auto& token : tokens) {
+            if (token.type == "tag") {
+                if (isClosingTag(token.text)) {
+                    string tagName = getTagName(token.text);
 
-            if (!st.empty() && st.top() == tagName) {
-                st.pop();
-                fixedXML += "</" + tagName + ">";
-            }
-            else {
-                errorLines.push_back(token.line);
+                    if (!tagStack.empty() && tagStack.top().text == tagName) {
+                        tagStack.pop();
+                        fixedLine += "<" + token.text + ">";
+                    }
+                    else {
+                        while (!tagStack.empty() && tagStack.top().text != tagName) {
+                            Token topToken = tagStack.top();
+                            tagStack.pop();
+                            fixedLine += "</" + topToken.text + ">";
+                            errors.addError(lineNum, topToken.level, topToken.text,
+                                "Missing",
+                                "Inserted missing closing tag for <" + topToken.text + ">");
+                        }
 
-                while (!st.empty() && st.top() != tagName) {
-                    fixedXML += "</" + st.top() + ">";
-                    st.pop();
-                    errorCount++;
-                }
+                        if (!tagStack.empty() && tagStack.top().text == tagName) {
+                            tagStack.pop();
+                        }
 
-                if (!st.empty()) st.pop();
-                fixedXML += "</" + tagName + ">";
-                errorCount++;
-            }
-            break;
-        }
-
-        case TEXT_NODE:
-            fixedXML += token.value;
-            break;
-
-        case UNKNOWN: {
-            string tagName = token.value;
-            bool isClosing = false;
-
-            if (!tagName.empty() && tagName[0] == '/') {
-                isClosing = true;
-                tagName = tagName.substr(1);
-            }
-
-            if (isClosing) {
-                while (!st.empty() && st.top() != tagName) {
-                    fixedXML += "</" + st.top() + ">";
-                    st.pop();
-                    errorCount++;
-                }
-
-                if (!st.empty()) st.pop();
-                fixedXML += "</" + tagName + ">";
-                errorCount++;
-            }
-            else {
-                if (!st.empty() && st.top() == tagName) {
-                    st.pop();
-                    fixedXML += "</" + tagName + ">";
+                        fixedLine += "<" + token.text + ">";
+                        errors.addError(lineNum, 0, tagName,
+                            "Mismatched",
+                            "Fixed mismatched closing tag for <" + tagName + ">");
+                    }
                 }
                 else {
-                    st.push(tagName);
-                    fixedXML += "<" + tagName + ">";
+                    tagStack.push(token);
+                    fixedLine += "<" + token.text + ">";
                 }
-                errorCount++;
             }
-
-            errorLines.push_back(token.line);
-            break;
+            else {
+                fixedLine += token.text;
+            }
         }
 
-        } // switch
-    } // for
-
-    while (!st.empty()) {
-        fixedXML += "</" + st.top() + ">";
-        st.pop();
-        errorCount++;
+        fixedLines.push_back(fixedLine);
+        lineNum++;
     }
 
-    return fixedXML;
+    while (!tagStack.empty()) {
+        Token topToken = tagStack.top();
+        tagStack.pop();
+        fixedLines.push_back(string(topToken.level * 4, ' ') +
+            "</" + topToken.text + ">");
+        errors.addError(lineNum, topToken.level, topToken.text,
+            "Missing",
+            "Inserted missing closing tag for <" + topToken.text + ">");
+    }
+
+    string fixedContent;
+    for (auto& l : fixedLines) {
+        fixedContent += l + "\n";
+    }
+
+    return fixedContent;
 }
