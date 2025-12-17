@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <stack>
+#include "minfiy.h"
 
 using namespace std;
 
