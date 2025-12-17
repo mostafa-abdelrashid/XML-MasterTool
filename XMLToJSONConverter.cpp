@@ -6,7 +6,7 @@
 * the output will be saved in output.json file
 */
 
-
+#include "comp_decomp.h" 
 #include "XMLToJSONConverter.h"
 #include <cctype>
 #include <algorithm>
