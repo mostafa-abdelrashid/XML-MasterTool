@@ -15,6 +15,8 @@ class User {
 	vector<Post> posts;
 	vector<int> followers_id;
 	vector<User*> followers;
+	vector<int> following_id;
+	vector<User*> following;
 
 public:
 	User();
@@ -24,10 +26,17 @@ public:
 	const vector<Post>& getPosts() const;
 	const vector<int>& getFollowersIDs() const;
 	const vector<User*>& getFollowers() const;
+	const vector<int>& getFollowingIDs() const;
+	const vector<User*>& getFollowing() const;
+	int getFollowersCount() const;
+	int getFollowingCount() const;
+	int getTotalConnections() const;
 	void setName(string name);
 	void addPost(const Post& newPost);
-	void addFollowerID(int follower_id);
+	void addFollowerID(int follower_ID);
 	void addFollower(User* newFollower);
+	void addFollowingID(int following_ID);
+	void addFollowing(User* newFollowing);
 	~User();
 };
 
