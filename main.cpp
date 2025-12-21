@@ -9,6 +9,9 @@
 #include "XMLToJSONConverter.h"
 #include "comp_decomp.h"
 #include "XMLParser.h"
+#include "Mutual.h"
+#include "Suggest.h"
+#include "SocialNetwork.h"
 
 using namespace std;
 
@@ -157,6 +160,28 @@ int main(int argc, char* argv[]) {
         decompress(inputFile, outputFile);
         cout << "Decompressed file saved to " << outputFile << endl;
     }
+    // MUTUAL FOLLOWERS
+    else if (action == "mutual") {
+        string idsStr = getArg(argc, argv, "-ids");
+        if (inputFile.empty() || idsStr.empty()) {
+            cerr << "Error: Input file and ids required\n";
+            return 1;
+        }
+        vector<int> ids = parseIds(idsStr);
+        mutual(inputFile, ids);
+        cout << "Mutual followers printed." << endl;
+    }
+
+    // SUGGEST USERS
+    else if (action == "suggest") {
+        string idStr = getArg(argc, argv, "-id");
+        if (inputFile.empty() || idStr.empty()) {
+            cerr << "Error: Input file and id required\n";
+            return 1;
+        }
+        suggest(inputFile, stoi(idStr));
+        cout << "Suggestions printed." << endl;
+    }
 
     else {
         cout << "Unknown command: " << action << endl;
@@ -164,4 +189,5 @@ int main(int argc, char* argv[]) {
     }
 
     return 0;
+
 }
