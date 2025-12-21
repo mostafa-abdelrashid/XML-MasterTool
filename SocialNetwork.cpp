@@ -12,50 +12,44 @@ SocialNetwork::~SocialNetwork() {
 }
 
 // Phase 1
-void SocialNetwork::parseUsersFromXML(shared_ptr<XMLNode> root) {
+void SocialNetwork::parseUsersFromXML(XMLNode* root) {
 
-    // ROOT → users
-    for (auto& usersNode : root->children) {
-        if (usersNode->tagName != "users") continue;
+    for (XMLNode* usersNode : root->getChildren()) {
+        if (usersNode->getName() != "users") continue;
 
-        // users → user
-        for (auto& userNode : usersNode->children) {
-            if (userNode->tagName != "user") continue;
+        for (XMLNode* userNode : usersNode->getChildren()) {
+            if (userNode->getName() != "user") continue;
 
             string userName = "";
             vector<int> followerIDs;
 
-            // Read child nodes
-            for (auto& child : userNode->children) {
-                if (child->tagName == "name") {
-                    userName = child->value;
+            for (XMLNode* child : userNode->getChildren()) {
+                if (child->getName() == "name") {
+                    userName = child->getContent();
                 }
-                else if (child->tagName == "followers") {
-                    for (auto& followerNode : child->children) {
-                        for (auto& fChild : followerNode->children) {
-                            if (fChild->tagName == "id") {
-                                followerIDs.push_back(stoi(fChild->value));
+                else if (child->getName() == "followers") {
+                    for (XMLNode* followerNode : child->getChildren()) {
+                        for (XMLNode* fChild : followerNode->getChildren()) {
+                            if (fChild->getName() == "id") {
+                                followerIDs.push_back(stoi(fChild->getContent()));
                             }
                         }
                     }
                 }
             }
 
-            // Create User with automatic unique ID
             User* user = new User(userName);
 
-            // Store follower IDs temporarily
-            for (int fid : followerIDs) {
+            for (int fid : followerIDs)
                 user->addFollowerID(fid);
-            }
 
-            // Add to map using the unique ID generated in User
             usersMap[user->getID()] = user;
         }
     }
 }
 
-// Phase 2: Linking users 
+
+// Phase 2: Linking users
 void SocialNetwork::linkUsers() {
     for (auto& [idA, userA] : usersMap) {
         for (int idB : userA->getFollowersIDs()) {
