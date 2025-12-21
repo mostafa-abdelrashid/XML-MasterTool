@@ -43,6 +43,7 @@ const vector<int>& User::getFollowingIDs() const {
 	return following_id;
 }
 const vector<User*>& User::getFollowing() const { 
+	 return following; 
 }
 
 int User::getFollowersCount() const { 
@@ -84,3 +85,4 @@ void User::addFollowing(User* newFollowing_ptr) {
 		following.push_back(newFollowing_ptr);
 	}
 }
+
