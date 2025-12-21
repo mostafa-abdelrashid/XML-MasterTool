@@ -3,9 +3,10 @@
 
 #include <iostream>
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <vector>
-#include "User.h"
+#include "Classes\User.h"
 #include "Token.h"
 #include "XMLNode.h"
 
@@ -28,5 +29,9 @@ public:
 
     const map<int, User*>& getAllUsers() const;
 };
+
+//added function to build followers graph
+std::unordered_map<int, std::vector<int>>
+buildFollowersGraph(XMLNode* root);
 
 #endif
