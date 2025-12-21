@@ -6,19 +6,21 @@
 #include <memory>
 #include <vector>
 #include "User.h"
-#include "Token.h" 
+#include "Token.h"
+#include "XMLNode.h"
+
 
 using namespace std;
 
 class SocialNetwork {
 private:
-    map<int, User*> usersMap; 
+    map<int, User*> usersMap;
 
 public:
     SocialNetwork();
     ~SocialNetwork();
 
-    void parseUsersFromXML(shared_ptr<XMLNode> root);
+    void parseUsersFromXML(XMLNode* root);
 
     void linkUsers();
 
@@ -28,4 +30,3 @@ public:
 };
 
 #endif
-
