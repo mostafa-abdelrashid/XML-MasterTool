@@ -82,3 +82,38 @@ void SocialNetwork::displayGraph() const {
 const map<int, User*>& SocialNetwork::getAllUsers() const {
     return usersMap;
 }
+
+//added function to build followers graph
+unordered_map<int, vector<int>>
+buildFollowersGraph(XMLNode* root) {
+    unordered_map<int, vector<int>> graph;
+
+    // <users>
+    for (XMLNode* userNode : root->getChildren()) {
+        int userId = -1;
+
+        for (XMLNode* child : userNode->getChildren()) {
+            if (child->getName() == "id") {
+                userId = stoi(child->getContent());
+                break;
+            }
+        }
+        if (userId == -1) continue;
+
+        for (XMLNode* child : userNode->getChildren()) {
+            if (child->getName() == "followers") {
+                for (XMLNode* followerNode : child->getChildren()) {
+                    for (XMLNode* idNode : followerNode->getChildren()) {
+                        if (idNode->getName() == "id") {
+                            int followerId = stoi(idNode->getContent());
+                            if (followerId != userId)   // safety
+                                graph[userId].push_back(followerId);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return graph;
+}
