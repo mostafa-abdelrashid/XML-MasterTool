@@ -19,17 +19,11 @@ struct Token {
     string value;
     int line;
 };
-struct XMLNode {
-    string tagName;
-    string value;
-    vector<shared_ptr<XMLNode>> children;
-    XMLNode(string name) : tagName(name) {}
-};
-
 struct XMLError {
     int line;
     string message;
 };
 
 #endif
+
 
