@@ -124,7 +124,7 @@ void printMatches(const vector<PostMatch>& matches) {
 /* -------------------------------
    main just for test
    ------------------------------- */
-int main() {
+/*int main() {
     const string filename = "sample.xml"; // file name hardcoded
     const string wordToSearch = "lo";  // word hardcoded
 
@@ -141,4 +141,5 @@ int main() {
     printMatches(results);
 
     return 0;
-}
+
+}*/
