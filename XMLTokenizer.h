@@ -5,7 +5,6 @@
 
 class XMLTokenizer {
 private:
-    string readFileToString(string filePath);
     string trim(const string& str);
 
 public:
@@ -13,3 +12,4 @@ public:
 };
 
 #endif
+
