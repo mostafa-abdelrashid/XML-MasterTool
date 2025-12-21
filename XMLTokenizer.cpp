@@ -2,17 +2,6 @@
 
 using namespace std;
 
-string XMLTokenizer::readFileToString(string filePath) {
-    ifstream file(filePath);
-    if (!file.is_open()) {
-        cerr << "Error: Could not open file " << filePath << endl;
-        return "";
-    }
-    stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
-
 string XMLTokenizer::trim(const string& str) {
     size_t first = str.find_first_not_of(" \t\n\r");
     if (string::npos == first) return "";
@@ -68,3 +57,4 @@ vector<Token> XMLTokenizer::tokenize(string filePath) {
     }
     return tokens;
 }
+
