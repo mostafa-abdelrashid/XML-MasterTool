@@ -1,15 +1,13 @@
 #include "XMLTreeBuilder.h"
-#include "XMLTokenizer.h"
-#include <stack>
 #include <iostream>
-#include <vector>
 
 using namespace std;
+XMLTreeBuilder g_treeBuilder;
+XMLNode* g_root = nullptr;
 
-// Build tree and return root
-XMLNode* buildTree(const vector<Token>& tokens, vector<XMLError>& errors) {
+void XMLTreeBuilder::build(const vector<Token>& tokens) {
     stack<XMLNode*> nodeStack;
-    XMLNode* root = new XMLNode("ROOT");
+    root = new XMLNode("ROOT");
     nodeStack.push(root);
     errors.clear();
 
@@ -45,12 +43,17 @@ XMLNode* buildTree(const vector<Token>& tokens, vector<XMLError>& errors) {
             "EOF Error: Tag <" + nodeStack.top()->getName() + "> was never closed."});
         nodeStack.pop();
     }
-
-    return root;
 }
 
+void XMLTreeBuilder::printErrors()const  {
+    cout << "\n--- Error Report ---\n";
+    if (errors.empty()) cout << " No errors found.\n";
+    for (const auto& err : errors) {
+        cout << "[Line " << err.line << "] " << err.message << "\n";
+    }
+}
 // Print tree recursively
-void printTree(XMLNode* node, int depth ) {
+void XMLTreeBuilder::printTree(XMLNode* node, int depth )const  {
     if (!node) return;
 
     string indent(depth * 4, ' ');
@@ -66,29 +69,24 @@ void printTree(XMLNode* node, int depth ) {
     }
 }
 
-// Print errors
-void printErrors(const vector<XMLError>& errors) {
-    cout << "\n--- Error Report ---\n";
-    if (errors.empty()) cout << " No errors found.\n";
-    for (const auto& err : errors) {
-        cout << "[Line " << err.line << "] " << err.message << "\n";
-    }
-}
+// Main function to bulid a tree
 
-XMLNode* g_root = nullptr;
-vector<XMLError> g_errors;
+extern XMLTokenizer g_tokenizer;
+
 void Tree() {
-    if (g_tokens.empty()) {
+
+    const vector<Token>& tokens = g_tokenizer.getTokens();
+
+    if (tokens.empty()) {
         cout << "Error: Tokens not built yet!\n";
         return;
     }
 
-    g_root = buildTree(g_tokens, g_errors);
+    g_treeBuilder.build(tokens);
+    g_root = g_treeBuilder.getRoot();
 
     cout << "\n--- Tree implementation ---\n";
-    printTree(g_root);
+    g_treeBuilder.printTree(g_root);
 
-    if (!g_errors.empty()) {
-        printErrors(g_errors);
-    }
+    g_treeBuilder.printErrors();
 }
