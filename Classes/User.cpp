@@ -1,17 +1,15 @@
 #include "User.h"
 
-int User::next_available_id = 1;
-
 User::User() {
-	id = next_available_id++;
+	id = 0;
 	name = "";
 	posts = {};
 	followers_id = {};
 	followers = {};
 }
 
-User::User(string name) {
-	id = next_available_id++;
+User::User(string name, int id) {
+	this->id = id;
 	this->name = name;
 	posts = {};
 	followers_id = {};
@@ -43,7 +41,7 @@ const vector<int>& User::getFollowingIDs() const {
 	return following_id;
 }
 const vector<User*>& User::getFollowing() const { 
-	 return following; 
+	return following;
 }
 
 int User::getFollowersCount() const { 
@@ -60,6 +58,10 @@ int User::getTotalConnections() const {
 
 void User::setName(string name) {
 	this->name = name;
+}
+
+void User::setID(int id) {
+	this->id = id;
 }
 
 void User::addPost(const Post& newPost) {
@@ -85,5 +87,3 @@ void User::addFollowing(User* newFollowing_ptr) {
 		following.push_back(newFollowing_ptr);
 	}
 }
-
-
