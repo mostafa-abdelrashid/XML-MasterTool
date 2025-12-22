@@ -117,3 +117,14 @@ buildFollowersGraph(XMLNode* root) {
 
     return graph;
 }
+SocialNetwork g_network;
+void Graph(){
+if (!g_root) {
+        cout << "Error: Tree not built yet!\n";
+        return;
+    }
+
+    g_network.parseUsersFromXML(g_root);
+    g_network.linkUsers();
+    g_network.displayGraph();
+}
