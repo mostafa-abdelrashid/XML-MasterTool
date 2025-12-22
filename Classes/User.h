@@ -10,7 +10,6 @@ using namespace std;
 class User {
 
 	int id;
-	static int next_available_id;
 	string name;
 	vector<Post> posts;
 	vector<int> followers_id;
@@ -20,7 +19,7 @@ class User {
 
 public:
 	User();
-	User(string name);
+	User(string name, int id);
 	int getID() const;
 	string getName() const;
 	const vector<Post>& getPosts() const;
@@ -32,6 +31,7 @@ public:
 	int getFollowingCount() const;
 	int getTotalConnections() const;
 	void setName(string name);
+	void setID(int id);
 	void addPost(const Post& newPost);
 	void addFollowerID(int follower_ID);
 	void addFollower(User* newFollower);
