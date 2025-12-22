@@ -11,7 +11,7 @@ void getMostActive(const map<int, User*>& usersMap) {
         if (current > maxConnections) { // In case there is only one most active user
             maxConnections = current;
             activeUsers.clear();
-            active.push_back(user);
+            activeUsers.push_back(user);
         }
         else if (current == maxConnections) { //In case there are more than one active user
             activeUsers.push_back(user);
@@ -27,5 +27,6 @@ void most_activeUser() {
 
     cout << "\n--- Most Active User ---\n";
     getMostActive(g_network.getAllUsers());
+
 
 }
