@@ -3,13 +3,11 @@
 
 #include "Token.h"
 
-class XMLTokenizer {
-private:
-    string trim(const string& str);
+extern std::vector<Token> g_tokens;
 
-public:
-    vector<Token> tokenize(string filePath);
-};
+string readFile(const string& filename);
+string trim(const string& str);
 
+vector<Token> tokenize(string filePath);
+void Tokens(const string& inputFile);
 #endif
-
