@@ -2,16 +2,23 @@
 
 using namespace std;
 
-string XMLTokenizer::trim(const string& str) {
+
+ string readFile(const string& filename) {
+    ifstream file(filename, ios::binary);
+    if (!file.is_open()) throw runtime_error("Error: Cannot open file " + filename);
+    return string(istreambuf_iterator<char>(file), istreambuf_iterator<char>());
+}
+
+string trim(const string& str) {
     size_t first = str.find_first_not_of(" \t\n\r");
     if (string::npos == first) return "";
     size_t last = str.find_last_not_of(" \t\n\r");
     return str.substr(first, (last - first + 1));
 }
 
-vector<Token> XMLTokenizer::tokenize(string filePath) {
+vector<Token>tokenize(string filePath) {
     vector<Token> tokens;
-    string content = readFileToString(filePath);
+    string content = readFile(filePath);
     if (content.empty()) return tokens;
 
     int i = 0, n = content.length();
@@ -57,4 +64,18 @@ vector<Token> XMLTokenizer::tokenize(string filePath) {
     }
     return tokens;
 }
+vector<Token> g_tokens;
+void Tokens(const string& inputFile)
+{
+ g_tokens = tokenize(inputFile);
+     for (const auto& t : g_tokens) {
+        string typeStr = (t.type == OPEN_TAG) ? "OPEN" :
+                         (t.type == CLOSE_TAG) ? "CLOSE" : "TEXT";
+        cout << "Line " << t.line << " | [" << typeStr << "]: " << t.value << endl;
+    }
+}
+
+
+
+
 
