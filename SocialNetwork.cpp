@@ -1,6 +1,7 @@
 #include "SocialNetwork.h"
 #include <iostream>
 using namespace std;
+SocialNetwork g_network;
 
 SocialNetwork::SocialNetwork() {}
 
@@ -118,7 +119,6 @@ buildFollowersGraph(XMLNode* root) {
     return graph;
 }
 // Main function to bulid a garph
-SocialNetwork g_network;
 void Graph(){
 if (!g_root) {
         cout << "Error: Tree not built yet!\n";
@@ -129,4 +129,5 @@ if (!g_root) {
     g_network.linkUsers();
     g_network.displayGraph();
 }
+
 
