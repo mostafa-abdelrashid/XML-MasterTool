@@ -9,16 +9,22 @@
 
 using namespace std;
 extern XMLNode* g_root;
-extern std::vector<XMLError> g_errors;
+class XMLTreeBuilder {
+private:
+    vector<XMLError> errors;
+    XMLNode* root;
 
-XMLNode* buildTree(const vector<Token>& tokens, vector<XMLError>& errors);
+public:
+    XMLTreeBuilder() : root(nullptr) {}
+    ~XMLTreeBuilder() { delete root; }
 
-// Print tree
-void printTree(XMLNode* node, int depth = 0);
+    void build(const vector<Token>& tokens);
+    void printErrors()const;
+    void printTree(XMLNode* node, int depth = 0)const;
 
-// Print errors
-void printErrors(const vector<XMLError>& errors);
-
+    XMLNode* getRoot() { return root; }
+};
+// global tree builder
+extern XMLTreeBuilder g_treeBuilder;
 void Tree();
-
 #endif
