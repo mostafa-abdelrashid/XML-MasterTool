@@ -1,6 +1,7 @@
 #include "SocialNetwork.h"
 #include <iostream>
 using namespace std;
+
 SocialNetwork g_network;
 
 SocialNetwork::SocialNetwork() {}
@@ -12,57 +13,68 @@ SocialNetwork::~SocialNetwork() {
     }
 }
 
-// Phase 1
+// Phase 1: Parsing XML into User objects
 void SocialNetwork::parseUsersFromXML(XMLNode* root) {
 
+    // ROOT → users
     for (XMLNode* usersNode : root->getChildren()) {
         if (usersNode->getName() != "users") continue;
 
+        // users → user
         for (XMLNode* userNode : usersNode->getChildren()) {
             if (userNode->getName() != "user") continue;
 
-            string userName = "";
-            vector<int> followerIDs;
+            User* user = new User();
 
-            for (XMLNode* child : userNode->getChildren()) {
-                if (child->getName() == "name") {
-                    userName = child->getContent();
+            for (XMLNode* child  : userNode->getChildren()) {
+
+                if (child->getName() == "id") {
+                    user->setID(stoi(child->getContent()));
+                }
+                else if (child->getName() == "name") {
+                    user->setName(child->getContent());
                 }
                 else if (child->getName() == "followers") {
-                    for (XMLNode* followerNode : child->getChildren()) {
-                        for (XMLNode* fChild : followerNode->getChildren()) {
+                    for (auto& followerNode : child->getChildren()) {
+                        for (auto& fChild : followerNode->getChildren()) {
                             if (fChild->getName() == "id") {
-                                followerIDs.push_back(stoi(fChild->getContent()));
+                                user->addFollowerID(stoi(fChild->getContent()));
                             }
                         }
                     }
                 }
             }
-
-            User* user = new User(userName);
-
-            for (int fid : followerIDs)
-                user->addFollowerID(fid);
-
-            usersMap[user->getID()] = user;
+                int id = user->getID();
+                if (id <= 0 || usersMap.count(id)) {
+                delete user;
+                continue;
+                                       }
+                   usersMap[id] = user;
         }
     }
 }
 
-
-// Phase 2: Linking users
+// Phase 2: Linking (The Graph Logic)
 void SocialNetwork::linkUsers() {
+
     for (auto& [idA, userA] : usersMap) {
+
         for (int idB : userA->getFollowersIDs()) {
+
             if (usersMap.count(idB)) {
                 User* userB = usersMap[idB];
+
                 // B follows A
                 userA->addFollower(userB);
                 userB->addFollowing(userA);
+                userB->addFollowingID(idA);
+
             }
         }
     }
 }
+
+
 
 // Display Graph
 void SocialNetwork::displayGraph() const {
@@ -118,8 +130,9 @@ buildFollowersGraph(XMLNode* root) {
 
     return graph;
 }
-// Main function to bulid a garph
+
 void Graph(){
+
 if (!g_root) {
         cout << "Error: Tree not built yet!\n";
         return;
@@ -129,5 +142,3 @@ if (!g_root) {
     g_network.linkUsers();
     g_network.displayGraph();
 }
-
-
