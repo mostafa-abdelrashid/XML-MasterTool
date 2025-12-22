@@ -1,25 +1,24 @@
-#ifndef XML_TREE_BUILDER_H
-#define XML_TREE_BUILDER_H
+#ifndef XMLTREEHELPER_H
+#define XMLTREEHELPER_H
 
 #include <vector>
-#include <stack>
+#include <string>
 #include "Token.h"
 #include "XMLNode.h"
+#include "XMLTokenizer.h"
 
-class XMLTreeBuilder {
-private:
-    vector<XMLError> errors;
-    XMLNode* root;
+using namespace std;
+extern XMLNode* g_root;
+extern std::vector<XMLError> g_errors;
 
-public:
-    XMLTreeBuilder() : root(nullptr) {}
-    ~XMLTreeBuilder() { delete root; }
+XMLNode* buildTree(const vector<Token>& tokens, vector<XMLError>& errors);
 
-    void build(const vector<Token>& tokens);
-    void printErrors();
+// Print tree
+void printTree(XMLNode* node, int depth = 0);
 
-    XMLNode* getRoot() { return root; }
-};
+// Print errors
+void printErrors(const vector<XMLError>& errors);
+
+void Tree();
 
 #endif
-
