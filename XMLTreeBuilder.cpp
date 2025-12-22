@@ -1,11 +1,15 @@
 #include "XMLTreeBuilder.h"
+#include "XMLTokenizer.h"
+#include <stack>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-void XMLTreeBuilder::build(const vector<Token>& tokens) {
+// Build tree and return root
+XMLNode* buildTree(const vector<Token>& tokens, vector<XMLError>& errors) {
     stack<XMLNode*> nodeStack;
-    root = new XMLNode("ROOT");
+    XMLNode* root = new XMLNode("ROOT");
     nodeStack.push(root);
     errors.clear();
 
@@ -41,12 +45,50 @@ void XMLTreeBuilder::build(const vector<Token>& tokens) {
             "EOF Error: Tag <" + nodeStack.top()->getName() + "> was never closed."});
         nodeStack.pop();
     }
+
+    return root;
 }
 
-void XMLTreeBuilder::printErrors() {
+// Print tree recursively
+void printTree(XMLNode* node, int depth ) {
+    if (!node) return;
+
+    string indent(depth * 4, ' ');
+    cout << indent << "[" << node->getName() << "]";
+
+    if (!node->getContent().empty()) {
+        cout << " -> Value: \"" << node->getContent() << "\"";
+    }
+    cout << endl;
+
+    for (XMLNode* child : node->getChildren()) {
+        printTree(child, depth + 1);
+    }
+}
+
+// Print errors
+void printErrors(const vector<XMLError>& errors) {
     cout << "\n--- Error Report ---\n";
     if (errors.empty()) cout << " No errors found.\n";
     for (const auto& err : errors) {
         cout << "[Line " << err.line << "] " << err.message << "\n";
+    }
+}
+
+XMLNode* g_root = nullptr;
+vector<XMLError> g_errors;
+void Tree() {
+    if (g_tokens.empty()) {
+        cout << "Error: Tokens not built yet!\n";
+        return;
+    }
+
+    g_root = buildTree(g_tokens, g_errors);
+
+    cout << "\n--- Tree implementation ---\n";
+    printTree(g_root);
+
+    if (!g_errors.empty()) {
+        printErrors(g_errors);
     }
 }
