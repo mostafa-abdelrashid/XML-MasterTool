@@ -33,5 +33,8 @@ public:
 //added function to build followers graph
 std::unordered_map<int, std::vector<int>>
 buildFollowersGraph(XMLNode* root);
+void Graph();
+extern SocialNetwork g_network;
 
 #endif
+
