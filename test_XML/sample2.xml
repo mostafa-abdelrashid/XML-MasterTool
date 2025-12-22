@@ -1,0 +1,170 @@
+<users>
+    <user>
+        <id>1</id>
+        <name>Ahmed Ali</name>
+        <posts>
+            <post>
+                <body>
+                    Discussion about global markets and economic trends.
+                </body>
+                <topics>
+                    <topic>economy</topic>
+                    <topic>finance</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>2</id></follower>
+            <follower><id>3</id></follower>
+            <follower><id>4</id></follower>
+        </followers>
+    </user>
+
+    <user>
+        <id>2</id>
+        <name>Yasser Ahmed</name>
+        <posts>
+            <post>
+                <body>
+                    Education reform and digital learning platforms.
+                </body>
+                <topics>
+                    <topic>education</topic>
+                    <topic>technology</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>3</id></follower>
+            <follower><id>5</id></follower>
+        </followers>
+    </user>
+
+    <user>
+        <id>3</id>
+        <name>Mohamed Sherif</name>
+        <posts>
+            <post>
+                <body>
+                    Sports analytics and performance optimization.
+                </body>
+                <topics>
+                    <topic>sports</topic>
+                    <topic>data</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>2</id></follower>
+            <follower><id>6</id></follower>
+        </followers>
+    </user>
+
+    <user>
+        <id>4</id>
+        <name>Salma Hassan</name>
+        <posts>
+            <post>
+                <body>
+                    Renewable energy solutions for smart cities.
+                </body>
+                <topics>
+                    <topic>solar_energy</topic>
+                    <topic>sustainability</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>1</id></follower>
+            <follower><id>5</id></follower>
+            <follower><id>7</id></follower>
+        </followers>
+    </user>
+
+    <user>
+        <id>5</id>
+        <name>Omar Fathy</name>
+        <posts>
+            <post>
+                <body>
+                    Startup funding and venture capital insights.
+                </body>
+                <topics>
+                    <topic>startups</topic>
+                    <topic>finance</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>2</id></follower>
+            <follower><id>4</id></follower>
+            <follower><id>6</id></follower>
+            <follower><id>8</id></follower>
+        </followers>
+    </user>
+
+    <user>
+        <id>6</id>
+        <name>Nour Adel</name>
+        <posts>
+            <post>
+                <body>
+                    Artificial intelligence applications in healthcare.
+                </body>
+                <topics>
+                    <topic>ai</topic>
+                    <topic>healthcare</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>3</id></follower>
+            <follower><id>5</id></follower>
+            <follower><id>7</id></follower>
+        </followers>
+    </user>
+
+    <user>
+        <id>7</id>
+        <name>Laila Mahmoud</name>
+        <posts>
+            <post>
+                <body>
+                    UX design principles for modern applications.
+                </body>
+                <topics>
+                    <topic>design</topic>
+                    <topic>technology</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>4</id></follower>
+            <follower><id>6</id></follower>
+            <follower><id>8</id></follower>
+        </followers>
+    </user>
+
+    <user>
+        <id>8</id>
+        <name>Kareem Nabil</name>
+        <posts>
+            <post>
+                <body>
+                    Cybersecurity threats and prevention strategies.
+                </body>
+                <topics>
+                    <topic>security</topic>
+                    <topic>technology</topic>
+                </topics>
+            </post>
+        </posts>
+        <followers>
+            <follower><id>5</id></follower>
+            <follower><id>7</id></follower>
+            <follower><id>1</id></follower>
+        </followers>
+    </user>
+</users>

@@ -200,6 +200,7 @@ string XMLToJSONConverter::convert(XMLNode* xmlRoot) {
     return result;
 }
 void XMLToJSONConverter::XMLToJSON(string& inputfile) {
+    // 1. Read XML file
     string xmlContent = readFile(inputfile);
     // 2. Parse XML
     XMLParser parser;

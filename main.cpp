@@ -12,6 +12,8 @@
 #include "Mutual.h"
 #include "Suggest.h"
 #include "SocialNetwork.h"
+// #include "GraphVisualizer.h"
+// #include <cstdlib> 
 
 using namespace std;
 
@@ -24,6 +26,7 @@ void printUsage() {
     cout << "  xml_editor mini -i <input> -o <output>           : Minify XML\n";
     cout << "  xml_editor compress -i <input> -o <output>       : Compress XML\n";
     cout << "  xml_editor decompress -i <input> -o <output>     : Decompress XML\n";
+    // cout << "  xml_editor draw -i <input.xml> -o <output>       : Draw social network graph (JPG/PNG)\n";
 }
 
 //get argument value
@@ -182,6 +185,45 @@ int main(int argc, char* argv[]) {
         suggest(inputFile, stoi(idStr));
         cout << "Suggestions printed." << endl;
     }
+    // else if (action == "draw") {
+    //     if (inputFile.empty() || outputFile.empty()) {
+    //         cerr << "Error: Need -i input.xml and -o output.png\n";
+    //         return 1;
+    //     }
+
+    //     size_t pos = outputFile.find_last_of('.');
+    //     if (pos == string::npos) {
+    //         cerr << "Error: Output file must have an extension\n";
+    //         return 1;
+    //     }
+
+    //     string ext = outputFile.substr(pos + 1);
+    //     if (ext != "png" && ext != "jpg") {
+    //         cerr << "Error: Output must be .png or .jpg\n";
+    //         return 1;
+    //     }
+
+    //     try {
+    //         string tempFile = "temp_graph_" + to_string(time(nullptr)) + ".dot";
+
+    //         generateDOTFile(inputFile, tempFile);
+
+    //         string cmd = "dot -T" + ext + " \"" + tempFile + "\" -o \"" + outputFile + "\"";
+
+    //         if (system(cmd.c_str()) != 0) {
+    //             cerr << "Graphviz execution failed.\n";
+    //             cerr << "DOT file saved as: " << tempFile << endl;
+    //             return 1;
+    //         }
+
+    //         remove(tempFile.c_str());
+    //         cout << "Graph saved: " << outputFile << endl;
+
+    //     } catch (...) {
+    //         cerr << "Error creating graph\n";
+    //         return 1;
+    //     }
+    // }
 
     else {
         cout << "Unknown command: " << action << endl;
