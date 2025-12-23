@@ -6,15 +6,17 @@
 #include <stack>
 #include <vector>
 
+using namespace std;  
+
 // ======================= CORE LOGIC =======================
 
-ErrorInfo countErrorSummary(const std::string &filePath)
+ErrorInfo countErrorSummary(const string &filePath)
 {
     ErrorInfo errors;
     XMLTokenizer tokenizer;
 
-    std::vector<Token> tokens = tokenizer.tokenize(filePath);
-    std::stack<Token> tagStack;
+    vector<Token> tokens = tokenizer.tokenize(filePath);
+    stack<Token> tagStack;
 
     for (const auto &t : tokens)
     {
@@ -72,39 +74,39 @@ ErrorInfo countErrorSummary(const std::string &filePath)
 
 // ======================= OUTPUT =======================
 
-void highlightErrors(const std::string &filePath, const ErrorInfo &errors)
+void highlightErrors(const string &filePath, const ErrorInfo &errors)
 {
-    std::ifstream file(filePath);
+    ifstream file(filePath);
     if (!file.is_open())
     {
-        std::cerr << "Cannot open file: " << filePath << std::endl;
+        cerr << "Cannot open file: " << filePath << endl;
         return;
     }
 
-    std::string line;
+    string line;
     int lineNum = 1;
     int i = 0;
 
-    while (std::getline(file, line))
+    while (getline(file, line))
     {
         if (i < errors.count && errors.lines[i] == lineNum)
         {
-            std::cout << ">> ERROR: "
-                      << errors.descriptions[i]
-                      << "\n>> LINE " << lineNum << ": "
-                      << line << "\n\n";
+            cout << ">> ERROR: "
+                 << errors.descriptions[i]
+                 << "\n>> LINE " << lineNum << ": "
+                 << line << "\n\n";
             i++;
         }
         else
         {
-            std::cout << line << "\n";
+            cout << line << "\n";
         }
         lineNum++;
     }
 
     while (i < errors.count)
     {
-        std::cout << ">> ERROR: " << errors.descriptions[i] << "\n";
+        cout << ">> ERROR: " << errors.descriptions[i] << "\n";
         i++;
     }
 }
