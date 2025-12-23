@@ -4,17 +4,19 @@
 #include <string>
 #include <vector>
 
+using namespace std; 
+
 // struct to hold match info
 struct PostMatch {
-    std::string id;   // id of post
-    std::string text; // text/body of post
+    string id;   // id of post
+    string text; // text/body of post
 };
 
 // search posts by word inside <text> or <body>
-std::vector<PostMatch> searchPostsByWord(const std::string& xmlContent,
-                                         const std::string& word);
+vector<PostMatch> searchPostsByWord(const string& xmlContent,
+                                    const string& word);
 
 // print matches to console
-void printMatches(const std::vector<PostMatch>& matches);
+void printMatches(const vector<PostMatch>& matches);
 
 #endif
