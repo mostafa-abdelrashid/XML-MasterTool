@@ -7,7 +7,7 @@ void getMostActive(const map<int, User*>& usersMap) {
     vector<User*> activeUsers;
 
     for (auto const& [id, user] : usersMap) {
-        int current = user->getFollowing();
+        int current = user->getFollowingCount();
         if (current > maxFollowing) { // In case there is only one most active user
             maxFollowing = current;
             activeUsers.clear();
@@ -27,4 +27,5 @@ void most_activeUser() {
     cout << "\n--- Most Active User ---\n";
     getMostActive(g_network.getAllUsers());
 }
+
 
