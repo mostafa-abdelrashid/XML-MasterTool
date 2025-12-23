@@ -2,50 +2,33 @@
 #define ERROR_CHECK_H
 
 #include <string>
-#include <vector>
-#include <iostream>
 
-// Token struct used by the error checker
-struct Token {
-    std::string type;
-    std::string text;
-    int level {};
-};
+struct ErrorInfo
+{
+    static const int MAX_ERRORS = 100;
 
-// ErrorInfo struct to hold error details
-struct ErrorInfo {
-    int count {};
-    std::vector<int> lines;
-    std::vector<std::string> descriptions;
-    std::vector<std::string> types;
-    std::vector<std::string> tags;
-    std::vector<int> levels;
+    int lines[MAX_ERRORS];
+    std::string types[MAX_ERRORS];
+    std::string tags[MAX_ERRORS];
+    std::string descriptions[MAX_ERRORS];
+    int count = 0;
 
-    // Helper to add error details
-    void addError(int line, int level,
-                  const std::string& tag,
-                  const std::string& type,
-                  const std::string& desc)
+    void addError(int line,
+                  int level,
+                  const std::string &tag,
+                  const std::string &type,
+                  const std::string &desc)
     {
+        if (count >= MAX_ERRORS) return;
+        lines[count] = line;
+        types[count] = type;
+        tags[count] = tag;
+        descriptions[count] = desc;
         count++;
-        lines.push_back(line);
-        levels.push_back(level);
-        tags.push_back(tag);
-        types.push_back(type);
-        descriptions.push_back(desc);
     }
 };
 
-// Function Declarations
-std::vector<Token> tokenizeLine(const std::string& line);
-bool verifyImproved(const std::string& tokens);
-bool isClosingTag(const std::string &tag);
-std::string getTagName(const std::string &tagText);
+ErrorInfo countErrorSummary(const std::string &filePath);
+void highlightErrors(const std::string &filePath, const ErrorInfo &errors);
 
-// Main function to detect errors
-ErrorInfo countErrorSummary(const std::string &content);
-
-// Helper to print errors to console
-void highlightErrors(const std::string &content, const ErrorInfo &errors);
-
-#endif // ERROR_CHECK_H
+#endif
