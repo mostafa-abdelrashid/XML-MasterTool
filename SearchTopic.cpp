@@ -136,39 +136,3 @@ vector<PostMatch> searchPostsByTopic(const string& xmlContent, const string& top
     return matches;
 }
 
-// ================= PRINT RESULTS =================
-void printMatchesTopic(const vector<PostMatch>& matches) {
-    if (matches.empty()) {
-        cout << "No posts found for the requested topic.\n";
-        return;
-    }
-
-    cout << "Found " << matches.size() << " post(s):\n";
-    for (const auto& m : matches) {
-        cout << "UserID: " << (m.id.empty() ? "(unknown)" : m.id) << "\n";
-        if (!m.text.empty())
-            cout << "Text: " << m.text << "\n";
-        cout << "----\n";
-    }
-}
-
-/* ================= TEST MAIN ================= */
-/*int main() {
-    const string filename = "sample.xml";
-    const string topicToSearch = "sp";
-
-    ifstream in(filename);
-    if (!in) {
-        cerr << "Cannot open " << filename << endl;
-        return 1;
-    }
-
-    string content((istreambuf_iterator<char>(in)),
-                   istreambuf_iterator<char>());
-
-    vector<PostMatch> results = searchPostsByTopic(content, topicToSearch);
-    printMatchesTopic(results);
-
-    return 0;
-}*/
-
