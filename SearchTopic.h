@@ -11,7 +11,6 @@
 // Returns a vector of PostMatch for matching posts.
 std::vector<PostMatch> searchPostsByTopic(const std::string& xmlContent, const std::string& topic);
 
-// Utility to print matches
-void printMatchesTopic(const std::vector<PostMatch>& matches);
+
 
 #endif
