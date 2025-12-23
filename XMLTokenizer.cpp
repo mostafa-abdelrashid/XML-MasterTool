@@ -1,4 +1,5 @@
 #include "XMLTokenizer.h"
+#include "comp_decomp.h" // Added to use the centralized readFile
 #include <fstream>
 #include <stdexcept>
 
@@ -15,24 +16,14 @@ string XMLTokenizer::trim(const string& str) {
     return str.substr(first, last - first + 1);
 }
 
-// Read file
-string readFile(const string& filename) {
-    ifstream file(filename, ios::binary);
-    if (!file.is_open())
-        throw runtime_error("Cannot open file: " + filename);
-
-    return string(
-        istreambuf_iterator<char>(file),
-        istreambuf_iterator<char>()
-    );
-}
 
 // Tokenize XML
 vector<Token> XMLTokenizer::tokenize(string filePath) {
 
     tokens.clear();
 
-    string content = readFile(filePath);
+    // Now uses the readFile from comp_decomp.cpp
+    string content = readFile(filePath); 
     if (content.empty()) return tokens;
 
     int i = 0;
