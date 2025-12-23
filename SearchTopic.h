@@ -5,12 +5,10 @@
 #include <vector>
 #include "SearchWord.h"
 
-
+using namespace std; 
 
 // Search the XML content for posts where a <topic> equals 'topic' (case-insensitive).
 // Returns a vector of PostMatch for matching posts.
-std::vector<PostMatch> searchPostsByTopic(const std::string& xmlContent, const std::string& topic);
-
-
+vector<PostMatch> searchPostsByTopic(const string& xmlContent, const string& topic);
 
 #endif
