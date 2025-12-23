@@ -24,9 +24,6 @@ void getMostActive(const map<int, User*>& usersMap) {
 }
 
 void most_activeUser() {
-
     cout << "\n--- Most Active User ---\n";
     getMostActive(g_network.getAllUsers());
-
-
 }
