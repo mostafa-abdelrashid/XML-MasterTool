@@ -137,7 +137,7 @@ vector<PostMatch> searchPostsByTopic(const string& xmlContent, const string& top
 }
 
 // ================= PRINT RESULTS =================
-void printMatches(const vector<PostMatch>& matches) {
+void printMatchesTopic(const vector<PostMatch>& matches) {
     if (matches.empty()) {
         cout << "No posts found for the requested topic.\n";
         return;
@@ -167,7 +167,8 @@ void printMatches(const vector<PostMatch>& matches) {
                    istreambuf_iterator<char>());
 
     vector<PostMatch> results = searchPostsByTopic(content, topicToSearch);
-    printMatches(results);
+    printMatchesTopic(results);
 
     return 0;
 }*/
+
