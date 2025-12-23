@@ -29,7 +29,6 @@ public:
 	const vector<User*>& getFollowing() const;
 	int getFollowersCount() const;
 	int getFollowingCount() const;
-	int getTotalConnections() const;
 	void setName(string name);
 	void setID(int id);
 	void addPost(const Post& newPost);
@@ -41,3 +40,4 @@ public:
 };
 
 #endif
+
