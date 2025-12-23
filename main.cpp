@@ -2,21 +2,34 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <cstdlib> 
+#include <sstream>
 
+// Core Utils
 #include "error_check.h"      
 #include "errorFixing.h"
 #include "prettify.h"
-#include "XMLToJSONConverter.h"
 #include "comp_decomp.h"
+#include "minfiy.h"
+
+// XML Parsing & Conversion
+#include "XMLToJSONConverter.h"
 #include "XMLParser.h"
+#include "XMLNode.h"
+
+// Social Network & Analysis headers
+#include "SocialNetwork.h"
 #include "Mutual.h"
 #include "Suggest.h"
-#include "SocialNetwork.h"
-// #include "GraphVisualizer.h"
-// #include <cstdlib> 
+#include "Influencer.h"
+#include "ActiveUser.h"
+#include "SearchWord.h"
+#include "SearchTopic.h"
+#include "GraphVisualizer.h"
 
 using namespace std;
 
+// --- Helper Functions ---
 
 void printUsage() {
     cout << "Usage:\n";
@@ -26,10 +39,15 @@ void printUsage() {
     cout << "  xml_editor mini -i <input> -o <output>           : Minify XML\n";
     cout << "  xml_editor compress -i <input> -o <output>       : Compress XML\n";
     cout << "  xml_editor decompress -i <input> -o <output>     : Decompress XML\n";
-    // cout << "  xml_editor draw -i <input.xml> -o <output>       : Draw social network graph (JPG/PNG)\n";
+    cout << "  xml_editor draw -i <input.xml> -o <output.jpg>   : Draw social network graph (Requires GraphViz)\n";
+    cout << "  xml_editor most_active -i <input>                : Find the most active user\n";
+    cout << "  xml_editor most_influencer -i <input>            : Find the most influential user\n";
+    cout << "  xml_editor mutual -i <input> -ids <id1,id2...>   : Find mutual followers\n";
+    cout << "  xml_editor suggest -i <input> -id <id>           : Suggest users to follow\n";
+    cout << "  xml_editor search -i <input> -w <word>           : Search posts by word\n";
+    cout << "  xml_editor search -i <input> -t <topic>          : Search posts by topic\n";
 }
 
-//get argument value
 string getArg(int argc, char* argv[], string flag) {
     for (int i = 1; i < argc - 1; ++i) {
         if (string(argv[i]) == flag) {
@@ -39,7 +57,6 @@ string getArg(int argc, char* argv[], string flag) {
     return "";
 }
 
-//check if flag exists
 bool hasFlag(int argc, char* argv[], string flag) {
     for (int i = 1; i < argc; ++i) {
         if (string(argv[i]) == flag) {
@@ -48,6 +65,46 @@ bool hasFlag(int argc, char* argv[], string flag) {
     }
     return false;
 }
+
+vector<int> parseIds(string idsStr) {
+    vector<int> ids;
+    string segment;
+    stringstream ss(idsStr);
+    while (getline(ss, segment, ',')) {
+        if (!segment.empty()) ids.push_back(stoi(segment));
+    }
+    return ids;
+}
+
+// Helper to load network for analysis commands
+bool loadNetwork(const string& inputFile) {
+    string xmlContent;
+    try {
+        xmlContent = readFile(inputFile);
+    } catch (...) {
+        cerr << "Error: Cannot open " << inputFile << endl;
+        return false;
+    }
+
+    // Parse XML
+    XMLParser parser;
+    XMLNode* root = nullptr;
+    try {
+        root = parser.parse(xmlContent);
+    } catch (const exception& e) {
+        cerr << "XML Parsing Error: " << e.what() << endl;
+        return false;
+    }
+
+    // Build Social Network (Populate global g_network)
+    g_network.parseUsersFromXML(root);
+    g_network.linkUsers();
+
+    delete root; 
+    return true;
+}
+
+// --- Main ---
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -59,33 +116,22 @@ int main(int argc, char* argv[]) {
     string inputFile = getArg(argc, argv, "-i");
     string outputFile = getArg(argc, argv, "-o");
 
-    //VERIFY / CHECK CONSISTENCY
+    // VERIFY
     if (action == "verify") {
         if (inputFile.empty()) {
             cerr << "Error: Input file required (-i)\n";
             return 1;
         }
 
-        // Read file content (using helper from comp_decomp)
-        string content;
-        try {
-            content = readFile(inputFile); 
-        } catch (...) {
-            cerr << "Error: Cannot open " << inputFile << endl;
-            return 1;
-        }
-
-        // Perform Check
-        ErrorInfo errors = countErrorSummary(content); 
+        // Pass the file PATH to countErrorSummary (updated logic)
+        ErrorInfo errors = countErrorSummary(inputFile); 
 
         if (errors.count == 0) {
             cout << "Valid\n"; 
         } else {
             cout << "Invalid\n";
             cout << errors.count << " errors found.\n";
-            for(size_t i=0; i<errors.lines.size(); i++) {
-                cout << "Line " << errors.lines[i] << ": " << errors.descriptions[i] << endl;
-            }
+            highlightErrors(inputFile, errors);
         }
 
         // Fix option (-f)
@@ -94,6 +140,12 @@ int main(int argc, char* argv[]) {
                 cerr << "Error: Output file required for fixing (-o)\n";
                 return 1;
             }
+            
+            // Read content specifically for the fixing logic
+            string content;
+            try { content = readFile(inputFile); } 
+            catch (...) { cerr << "Error: Cannot read file for fixing\n"; return 1; }
+
             string fixedContent = fixErrors(content, errors);
             if (writeFile(outputFile, fixedContent)) {
                  cout << "Fixed XML written to " << outputFile << endl;
@@ -113,14 +165,12 @@ int main(int argc, char* argv[]) {
         cout << "Formatted XML saved to " << outputFile << endl;
     }
 
-    // CONVERT TO JSON
+    // JSON CONVERSION
     else if (action == "json") {
         if (inputFile.empty() || outputFile.empty()) {
             cerr << "Error: Input and Output files required\n";
             return 1;
         }
-        // NOTE: Make sure your XMLToJSONConverter supports passing filenames directly
-        // If not, use the logic below:
         string xmlContent = readFile(inputFile);
         XMLParser parser;
         XMLNode* root = parser.parse(xmlContent);
@@ -163,73 +213,114 @@ int main(int argc, char* argv[]) {
         decompress(inputFile, outputFile);
         cout << "Decompressed file saved to " << outputFile << endl;
     }
+
     // MUTUAL FOLLOWERS
     else if (action == "mutual") {
         string idsStr = getArg(argc, argv, "-ids");
         if (inputFile.empty() || idsStr.empty()) {
-            cerr << "Error: Input file and ids required\n";
+            cerr << "Error: Input file and ids required (-i input.xml -ids 1,2,3)\n";
             return 1;
         }
         vector<int> ids = parseIds(idsStr);
         mutual(inputFile, ids);
-        cout << "Mutual followers printed." << endl;
     }
 
-    // SUGGEST USERS
+    // SUGGESTIONS
     else if (action == "suggest") {
         string idStr = getArg(argc, argv, "-id");
         if (inputFile.empty() || idStr.empty()) {
-            cerr << "Error: Input file and id required\n";
+            cerr << "Error: Input file and id required (-i input.xml -id 1)\n";
             return 1;
         }
         suggest(inputFile, stoi(idStr));
-        cout << "Suggestions printed." << endl;
     }
-    // else if (action == "draw") {
-    //     if (inputFile.empty() || outputFile.empty()) {
-    //         cerr << "Error: Need -i input.xml and -o output.png\n";
-    //         return 1;
-    //     }
 
-    //     size_t pos = outputFile.find_last_of('.');
-    //     if (pos == string::npos) {
-    //         cerr << "Error: Output file must have an extension\n";
-    //         return 1;
-    //     }
+    // MOST ACTIVE USER
+    else if (action == "most_active") {
+        if (inputFile.empty()) {
+            cerr << "Error: Input file required (-i)\n";
+            return 1;
+        }
+        if (!loadNetwork(inputFile)) return 1;
+        most_activeUser();
+    }
 
-    //     string ext = outputFile.substr(pos + 1);
-    //     if (ext != "png" && ext != "jpg") {
-    //         cerr << "Error: Output must be .png or .jpg\n";
-    //         return 1;
-    //     }
+    // MOST INFLUENTIAL USER
+    else if (action == "most_influencer") {
+        if (inputFile.empty()) {
+            cerr << "Error: Input file required (-i)\n";
+            return 1;
+        }
+        if (!loadNetwork(inputFile)) return 1;
+        most_influencer();
+    }
 
-    //     try {
-    //         string tempFile = "temp_graph_" + to_string(time(nullptr)) + ".dot";
+    // SEARCH (WORD OR TOPIC)
+    else if (action == "search") {
+        if (inputFile.empty()) {
+            cerr << "Error: Input file required (-i)\n";
+            return 1;
+        }
+        string word = getArg(argc, argv, "-w");
+        string topic = getArg(argc, argv, "-t");
+        string content = readFile(inputFile);
 
-    //         generateDOTFile(inputFile, tempFile);
+        if (!word.empty()) {
+            cout << "Searching for word: " << word << endl;
+            vector<PostMatch> results = searchPostsByWord(content, word);
+            printMatches(results); 
+        } 
+        else if (!topic.empty()) {
+            cout << "Searching for topic: " << topic << endl;
+            vector<PostMatch> results = searchPostsByTopic(content, topic);
+            printMatches(results); 
+        }
+        else {
+            cerr << "Error: Provide a search term using -w (word) or -t (topic)\n";
+            return 1;
+        }
+    }
 
-    //         string cmd = "dot -T" + ext + " \"" + tempFile + "\" -o \"" + outputFile + "\"";
+    // DRAW GRAPH
+    else if (action == "draw") {
+        if (inputFile.empty() || outputFile.empty()) {
+            cerr << "Error: Need -i input.xml and -o output.jpg\n";
+            return 1;
+        }
+        size_t pos = outputFile.find_last_of('.');
+        if (pos == string::npos) {
+            cerr << "Error: Output file must have an extension\n";
+            return 1;
+        }
+        string ext = outputFile.substr(pos + 1);
 
-    //         if (system(cmd.c_str()) != 0) {
-    //             cerr << "Graphviz execution failed.\n";
-    //             cerr << "DOT file saved as: " << tempFile << endl;
-    //             return 1;
-    //         }
+        try {
+            // Generate the DOT file (intermediate format)
+            string tempDotFile = "temp_graph.dot";
+            generateDOTFile(inputFile, tempDotFile);
 
-    //         remove(tempFile.c_str());
-    //         cout << "Graph saved: " << outputFile << endl;
+            // Call GraphViz (dot) command via system call
+            string cmd = "dot -T" + ext + " \"" + tempDotFile + "\" -o \"" + outputFile + "\"";
+            
+            cout << "Executing: " << cmd << endl;
+            if (system(cmd.c_str()) != 0) {
+                cerr << "Error: Graphviz execution failed. Make sure 'dot' is installed and in PATH.\n";
+                return 1;
+            }
 
-    //     } catch (...) {
-    //         cerr << "Error creating graph\n";
-    //         return 1;
-    //     }
-    // }
+            // Clean up temp file
+            remove(tempDotFile.c_str());
+            cout << "Graph saved to: " << outputFile << endl;
 
+        } catch (const exception& e) {
+            cerr << "Error creating graph: " << e.what() << endl;
+            return 1;
+        }
+    }
     else {
         cout << "Unknown command: " << action << endl;
         printUsage();
     }
 
     return 0;
-
 }
