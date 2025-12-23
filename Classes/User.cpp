@@ -52,10 +52,6 @@ int User::getFollowingCount() const {
 	return following_id.size();
 }
 
-int User::getTotalConnections() const { 
-	return followers_id.size() + following_id.size();
-}
-
 void User::setName(string name) {
 	this->name = name;
 }
@@ -87,3 +83,4 @@ void User::addFollowing(User* newFollowing_ptr) {
 		following.push_back(newFollowing_ptr);
 	}
 }
+
