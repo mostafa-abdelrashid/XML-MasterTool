@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Level2Window</class>
+ <widget class="QMainWindow" name="Level2Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>XML Editor - Level 2 (Network Analysis)</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout">
+    <item>
+     <layout class="QVBoxLayout">
+      <item>
+       <widget class="QPushButton" name="backButton">
+        <property name="text">
+         <string>&lt;- Back</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="inputGroupBox">
+        <property name="title">
+         <string>Input XML</string>
+        </property>
+        <layout class="QHBoxLayout">
+         <item>
+          <widget class="QLineEdit" name="xmlPathLineEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="browseButton">
+           <property name="text">
+            <string>Browse</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="graphGroupBox">
+        <property name="title">
+         <string>Graph Operations</string>
+        </property>
+        <layout class="QVBoxLayout">
+         <item>
+          <widget class="QPushButton" name="drawGraphButton">
+           <property name="text">
+            <string>Draw Graph</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mostActiveButton">
+           <property name="text">
+            <string>Most Active User</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mostInfluencerButton">
+           <property name="text">
+            <string>Most Influencer</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="mutualGroupBox">
+        <property name="title">
+         <string>Mutual Followers</string>
+        </property>
+        <layout class="QHBoxLayout">
+         <item>
+          <widget class="QLineEdit" name="mutualIdsLineEdit">
+           <property name="placeholderText">
+            <string>IDs: 1,2,3</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mutualButton">
+           <property name="text">
+            <string>Find</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="suggestGroupBox">
+        <property name="title">
+         <string>Suggest Users</string>
+        </property>
+        <layout class="QHBoxLayout">
+         <item>
+          <widget class="QSpinBox" name="suggestUserIdSpinBox"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="suggestButton">
+           <property name="text">
+            <string>Suggest</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="searchGroupBox">
+        <property name="title">
+         <string>Post Search</string>
+        </property>
+        <layout class="QVBoxLayout">
+         <item>
+          <widget class="QLineEdit" name="searchLineEdit"/>
+         </item>
+         <item>
+          <layout class="QHBoxLayout">
+           <item>
+            <widget class="QRadioButton" name="searchWordRadio">
+             <property name="text">
+              <string>By Word</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="searchTopicRadio">
+             <property name="text">
+              <string>By Topic</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QPushButton" name="searchButton">
+           <property name="text">
+            <string>Search</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="widget">
+       <attribute name="title">
+        <string>Results</string>
+       </attribute>
+       <layout class="QVBoxLayout">
+        <item>
+         <widget class="QTextEdit" name="resultsTextEdit"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="widget">
+       <attribute name="title">
+        <string>Graph</string>
+       </attribute>
+       <layout class="QVBoxLayout">
+        <item>
+         <widget class="QLabel" name="graphLabel">
+          <property name="text">
+           <string>No graph yet</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,114 @@
+# ninja log v6
+9	176	7882934861449315	XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+540	2027	7882923128203412	CMakeFiles/XML.dir/prettify.cpp.obj	98280f7982bf453c
+2274	3988	7882923145542702	CMakeFiles/XML.dir/GraphVisualizer.cpp.obj	b1ec40d73c9768fc
+9	176	7882934861449315	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+9	176	7882934861449315	XML_autogen/timestamp	51a8322a649e3811
+9	176	7882934861449315	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/timestamp	51a8322a649e3811
+596	3178	7882923128753830	CMakeFiles/XML.dir/XMLToJSONConverter.cpp.obj	4a16e4cfa9ddf085
+574	2509	7882923128543238	CMakeFiles/XML.dir/User.cpp.obj	1356ffdab76dab1f
+522	2074	7882923128025843	CMakeFiles/XML.dir/minfiy.cpp.obj	5d68898a83d074f7
+34	49	7882922983757347	clean	cfb1c957a3653036
+4173	4941	7882934903092626	XML.exe	303b4062053af0f6
+535	2109	7882923128149583	CMakeFiles/XML.dir/Post.cpp.obj	392bbfe8af7a4c60
+589	2065	7882923128678570	CMakeFiles/XML.dir/XMLParser.cpp.obj	963b12372c87aeeb
+546	2378	7882923128253245	CMakeFiles/XML.dir/SearchTopic.cpp.obj	f706214f2b2e94a1
+552	2286	7882923128312355	CMakeFiles/XML.dir/SearchWord.cpp.obj	45c6e3f86177a817
+229	1247	7882934536356582	CMakeFiles/XML.dir/errorFixing.cpp.obj	2c865a25ebbea908
+183	1083	7882934863189877	CMakeFiles/XML.dir/error_check.cpp.obj	ec32535c3afab1eb
+581	2274	7882923128618567	CMakeFiles/XML.dir/XMLNode.cpp.obj	8ff6401eae59369b
+509	2882	7882923127890263	CMakeFiles/XML.dir/comp_decomp.cpp.obj	8b7d82b7b10affcc
+529	3195	7882923128088102	CMakeFiles/XML.dir/Mutual.cpp.obj	422338ca1a64c802
+559	3467	7882923128382676	CMakeFiles/XML.dir/SocialNetwork.cpp.obj	468022aad4167cb6
+566	3343	7882923128457961	CMakeFiles/XML.dir/Suggest.cpp.obj	52268af0ab1a2887
+2065	3805	7882923143455923	CMakeFiles/XML.dir/XMLTreeBuilder.cpp.obj	8dc8edbcd9a4fe38
+2027	3662	7882923143078224	CMakeFiles/XML.dir/XMLTokenizer.cpp.obj	62954c3e808099f3
+2287	3982	7882923145668188	CMakeFiles/XML.dir/Influencer.cpp.obj	5f4f92b39cf0ac53
+2109	3913	7882923143893461	CMakeFiles/XML.dir/ActiveUser.cpp.obj	db9376eb8c56d3cf
+501	5106	7882923127814401	CMakeFiles/XML.dir/main.cpp.obj	8c331859bc344f7d
+497	5207	7882923127766569	CMakeFiles/XML.dir/XML_autogen/mocs_compilation.cpp.obj	50b3d721bcfda318
+188	2944	7882934863239914	CMakeFiles/XML.dir/LauncherWindow.cpp.obj	762b4d7a35d6042f
+176	3870	7882934863122500	CMakeFiles/XML.dir/mainwindow.cpp.obj	4d71bd3f7d36aeaa
+194	4173	7882934863300978	CMakeFiles/XML.dir/Level2Window.cpp.obj	8e6c77dde7a68fd6
+4	33	7882922983459278	CMakeFiles/clean.additional	cc6fe9a182d1e32c
+10	169	7882938628976376	XML_autogen/timestamp	51a8322a649e3811
+10	169	7882938628976376	XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+10	169	7882938628976376	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/timestamp	51a8322a649e3811
+10	169	7882938628976376	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+175	3101	7882938630625169	CMakeFiles/XML.dir/LauncherWindow.cpp.obj	762b4d7a35d6042f
+170	4000	7882938630575214	CMakeFiles/XML.dir/mainwindow.cpp.obj	4d71bd3f7d36aeaa
+179	4218	7882938630675167	CMakeFiles/XML.dir/Level2Window.cpp.obj	8e6c77dde7a68fd6
+4219	4988	7882938671066682	XML.exe	303b4062053af0f6
+4	35	7882939349026450	CMakeFiles/clean.additional	cc6fe9a182d1e32c
+35	51	7882939349327549	clean	cfb1c957a3653036
+9	549	7882939388362733	XML_autogen/timestamp	51a8322a649e3811
+9	549	7882939388362733	XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+9	549	7882939388362733	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/timestamp	51a8322a649e3811
+9	549	7882939388362733	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+586	2045	7882939389377728	CMakeFiles/XML.dir/minfiy.cpp.obj	5d68898a83d074f7
+609	2128	7882939389610803	CMakeFiles/XML.dir/prettify.cpp.obj	98280f7982bf453c
+626	2252	7882939389773772	CMakeFiles/XML.dir/SearchWord.cpp.obj	45c6e3f86177a817
+617	2272	7882939389693425	CMakeFiles/XML.dir/SearchTopic.cpp.obj	f706214f2b2e94a1
+669	2320	7882939390208054	CMakeFiles/XML.dir/XMLParser.cpp.obj	963b12372c87aeeb
+601	2385	7882939389534193	CMakeFiles/XML.dir/Post.cpp.obj	392bbfe8af7a4c60
+660	2530	7882939390112119	CMakeFiles/XML.dir/XMLNode.cpp.obj	8ff6401eae59369b
+579	2754	7882939389308302	CMakeFiles/XML.dir/errorFixing.cpp.obj	2c865a25ebbea908
+652	2807	7882939390041893	CMakeFiles/XML.dir/User.cpp.obj	1356ffdab76dab1f
+573	2944	7882939389249745	CMakeFiles/XML.dir/error_check.cpp.obj	ec32535c3afab1eb
+566	3098	7882939389174402	CMakeFiles/XML.dir/comp_decomp.cpp.obj	8b7d82b7b10affcc
+679	3204	7882939390309342	CMakeFiles/XML.dir/XMLToJSONConverter.cpp.obj	4a16e4cfa9ddf085
+593	3253	7882939389447785	CMakeFiles/XML.dir/Mutual.cpp.obj	422338ca1a64c802
+635	3398	7882939389870870	CMakeFiles/XML.dir/SocialNetwork.cpp.obj	468022aad4167cb6
+644	3546	7882939389956618	CMakeFiles/XML.dir/Suggest.cpp.obj	52268af0ab1a2887
+2045	4078	7882939403972126	CMakeFiles/XML.dir/XMLTokenizer.cpp.obj	62954c3e808099f3
+2128	4311	7882939404797987	CMakeFiles/XML.dir/XMLTreeBuilder.cpp.obj	8dc8edbcd9a4fe38
+2385	4385	7882939407374459	CMakeFiles/XML.dir/Influencer.cpp.obj	5f4f92b39cf0ac53
+2273	4392	7882939406245396	CMakeFiles/XML.dir/ActiveUser.cpp.obj	db9376eb8c56d3cf
+2320	4417	7882939406724683	CMakeFiles/XML.dir/GraphVisualizer.cpp.obj	b1ec40d73c9768fc
+554	5334	7882939389065102	CMakeFiles/XML.dir/main.cpp.obj	8c331859bc344f7d
+549	5453	7882939389009451	CMakeFiles/XML.dir/XML_autogen/mocs_compilation.cpp.obj	50b3d721bcfda318
+2252	6237	7882939406038325	CMakeFiles/XML.dir/LauncherWindow.cpp.obj	762b4d7a35d6042f
+559	6453	7882939389108833	CMakeFiles/XML.dir/mainwindow.cpp.obj	4d71bd3f7d36aeaa
+2531	7344	7882939408826788	CMakeFiles/XML.dir/Level2Window.cpp.obj	8e6c77dde7a68fd6
+7344	8112	7882939456959311	XML.exe	303b4062053af0f6
+9	176	7882944175493264	XML_autogen/timestamp	51a8322a649e3811
+9	176	7882944175493264	XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+9	176	7882944175493264	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/timestamp	51a8322a649e3811
+9	176	7882944175493264	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+186	2960	7882944177263761	CMakeFiles/XML.dir/LauncherWindow.cpp.obj	762b4d7a35d6042f
+176	3148	7882944177168058	CMakeFiles/XML.dir/main.cpp.obj	8c331859bc344f7d
+181	3766	7882944177218414	CMakeFiles/XML.dir/mainwindow.cpp.obj	4d71bd3f7d36aeaa
+191	4069	7882944177312874	CMakeFiles/XML.dir/Level2Window.cpp.obj	8e6c77dde7a68fd6
+4069	4819	7882944216093507	XML.exe	303b4062053af0f6
+5	37	7882949195377382	CMakeFiles/clean.additional	cc6fe9a182d1e32c
+37	53	7882949195693790	clean	cfb1c957a3653036
+11	551	7882949201775831	XML_autogen/timestamp	51a8322a649e3811
+11	551	7882949201775831	XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+11	551	7882949201775831	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/timestamp	51a8322a649e3811
+11	551	7882949201775831	F:/data structures and algorithms/DSA_final_xml/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/XML_autogen/mocs_compilation.cpp	51a8322a649e3811
+609	2107	7882949203044555	CMakeFiles/XML.dir/prettify.cpp.obj	98280f7982bf453c
+671	2140	7882949203668598	CMakeFiles/XML.dir/XMLParser.cpp.obj	963b12372c87aeeb
+601	2188	7882949202953553	CMakeFiles/XML.dir/Post.cpp.obj	392bbfe8af7a4c60
+587	2248	7882949202817139	CMakeFiles/XML.dir/minfiy.cpp.obj	5d68898a83d074f7
+627	2345	7882949203213851	CMakeFiles/XML.dir/SearchWord.cpp.obj	45c6e3f86177a817
+618	2375	7882949203129912	CMakeFiles/XML.dir/SearchTopic.cpp.obj	f706214f2b2e94a1
+652	2658	7882949203472109	CMakeFiles/XML.dir/User.cpp.obj	1356ffdab76dab1f
+662	2690	7882949203582730	CMakeFiles/XML.dir/XMLNode.cpp.obj	8ff6401eae59369b
+573	2691	7882949202680900	CMakeFiles/XML.dir/error_check.cpp.obj	ec32535c3afab1eb
+580	2829	7882949202746131	CMakeFiles/XML.dir/errorFixing.cpp.obj	2c865a25ebbea908
+566	3095	7882949202612918	CMakeFiles/XML.dir/comp_decomp.cpp.obj	8b7d82b7b10affcc
+680	3324	7882949203754141	CMakeFiles/XML.dir/XMLToJSONConverter.cpp.obj	4a16e4cfa9ddf085
+594	3403	7882949202888462	CMakeFiles/XML.dir/Mutual.cpp.obj	422338ca1a64c802
+643	3533	7882949203381687	CMakeFiles/XML.dir/Suggest.cpp.obj	52268af0ab1a2887
+635	3591	7882949203296205	CMakeFiles/XML.dir/SocialNetwork.cpp.obj	468022aad4167cb6
+2107	4154	7882949218023149	CMakeFiles/XML.dir/XMLTokenizer.cpp.obj	62954c3e808099f3
+2141	4214	7882949218356295	CMakeFiles/XML.dir/XMLTreeBuilder.cpp.obj	8dc8edbcd9a4fe38
+2248	4322	7882949219433239	CMakeFiles/XML.dir/ActiveUser.cpp.obj	db9376eb8c56d3cf
+2376	4426	7882949220709149	CMakeFiles/XML.dir/Influencer.cpp.obj	5f4f92b39cf0ac53
+2345	4451	7882949220401704	CMakeFiles/XML.dir/GraphVisualizer.cpp.obj	b1ec40d73c9768fc
+551	5488	7882949202455921	CMakeFiles/XML.dir/XML_autogen/mocs_compilation.cpp.obj	50b3d721bcfda318
+556	5699	7882949202504405	CMakeFiles/XML.dir/main.cpp.obj	8c331859bc344f7d
+2188	6196	7882949218835194	CMakeFiles/XML.dir/LauncherWindow.cpp.obj	762b4d7a35d6042f
+561	6407	7882949202553232	CMakeFiles/XML.dir/mainwindow.cpp.obj	4d71bd3f7d36aeaa
+2658	7328	7882949223536054	CMakeFiles/XML.dir/Level2Window.cpp.obj	8e6c77dde7a68fd6
+7328	8061	7882949270235504	XML.exe	303b4062053af0f6
