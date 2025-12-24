@@ -92,31 +92,86 @@ bool XMLToJSONConverter::shouldBeArray(const vector<XMLNode*>& children) {
     return true;
 }
 
-string XMLToJSONConverter::convertArray(const vector<XMLNode*>& children, int depth) {
-    string result, indent = makeIndent(depth), childIndent = makeIndent(depth + 1);
+string XMLToJSONConverter::convertNode(XMLNode* node, int depth) {
+    // 1. Handle Leaf Nodes (Text)
+    if (node->hasText() && !node->hasChildren())
+        return convertTextContent(node);
 
-    result += "[";
-    if (prettyPrint && !children.empty()) result += "\n";
+    // 2. Handle Object Nodes (Containers)
+    if (node->hasChildren()) {
+        string result = "{\n";
+        
+        // Convert children passing the current depth
+        result += convertChildren(node, depth);
+        
+        // FIX: Use 'depth' (not depth - 1) for the closing brace.
+        // This ensures the '}' aligns vertically with the start of this block.
+        result += makeIndent(depth) + "}"; 
+        return result;
+    }
+
+    return "\"\"";
+}
+
+string XMLToJSONConverter::convertChildren(XMLNode* node, int depth) {
+    string result;
+    // Indent for the keys inside this object (one level deeper than the object itself)
+    string childIndent = makeIndent(depth + 1);
+
+    const auto& children = node->getChildren();
+    map<string, vector<XMLNode*>> groups;
+
+    for (XMLNode* child : children)
+        groups[child->getName()].push_back(child);
+
+    size_t count = 0;
+    for (const auto& g : groups) {
+        result += childIndent;
+        result += "\"" + escapeJSONString(g.first) + "\": ";
+
+        if (g.second.size() == 1) {
+            // Pass depth + 1 because the value creates a new context (either an object or a value)
+            result += convertNode(g.second[0], depth + 1);
+        } else {
+            // Arrays are also a new context, so depth + 1
+            result += convertArray(g.second, depth + 1);
+        }
+
+        if (++count < groups.size())
+            result += ",";
+        result += "\n";
+    }
+
+    return result;
+}
+
+string XMLToJSONConverter::convertArray(const vector<XMLNode*>& children, int depth) {
+    string result;
+    string indent = makeIndent(depth);          // Indentation of the array brackets []
+    string childIndent = makeIndent(depth + 1); // Indentation of items inside the array
+
+    result += "[\n";
 
     for (size_t i = 0; i < children.size(); i++) {
         XMLNode* child = children[i];
-        if (prettyPrint) result += childIndent;
+        result += childIndent;
 
-        if (child->hasText() && !child->hasChildren())
+        if (child->hasText() && !child->hasChildren()) {
             result += convertTextContent(child);
-        else if (child->hasChildren())
-            result += "{" + convertChildren(child, depth + 2) + "}";
-        else
-            result += "\"\"";
+        } else {
+            // FIX: Pass depth + 1 here. 
+            // This ensures the Object inside the array ({...}) treats 'childIndent' as its baseline.
+            result += convertNode(child, depth + 1);
+        }
 
-        if (i < children.size() - 1) result += ",";
-        if (prettyPrint) result += "\n";
+        if (i < children.size() - 1)
+            result += ",";
+        result += "\n";
     }
 
-    if (prettyPrint && !children.empty()) result += indent;
-    return result + "]";
+    result += indent + "]";
+    return result;
 }
-
 string XMLToJSONConverter::convertTextContent(XMLNode* node) {
     string content = node->getContent();
     if (content.empty()) return "\"\"";
@@ -129,76 +184,22 @@ string XMLToJSONConverter::convertTextContent(XMLNode* node) {
     return "\"" + escapeJSONString(content) + "\"";
 }
 
-string XMLToJSONConverter::convertChildren(XMLNode* node, int depth) {
-    string result, indent = makeIndent(depth), childIndent = makeIndent(depth + 1);
-    const auto& children = node->getChildren();
 
-    map<string, vector<XMLNode*>> groups;
-    for (XMLNode* child : children)
-        groups[child->getName()].push_back(child);
-
-    size_t idx = 0;
-    for (const auto& g : groups) {
-        const string& tag = g.first;
-        const vector<XMLNode*>& groupChildren = g.second;
-
-        if (prettyPrint) result += childIndent;
-        result += "\"" + escapeJSONString(tag) + "\": ";
-
-        if (groupChildren.size() == 1) {
-            XMLNode* child = groupChildren[0];
-            if (child->hasText() && !child->hasChildren())
-                result += convertTextContent(child);
-            else
-                result += convertNode(child, depth + 1);
-        }
-        else {
-            result += convertArray(groupChildren, depth + 1);
-        }
-
-        if (++idx < groups.size()) result += ",";
-        if (prettyPrint) result += "\n";
-    }
-
-    return result;
-}
-
-string XMLToJSONConverter::convertNode(XMLNode* node, int depth) {
-    if (node->hasText() && !node->hasChildren())
-        return convertTextContent(node);
-
-    if (node->hasChildren()) {
-        const auto& children = node->getChildren();
-        if (shouldBeArray(children))
-            return convertArray(children, depth);
-        return "{" + convertChildren(node, depth) + "}";
-    }
-
-    return "\"\"";
-}
 
 string XMLToJSONConverter::convert(XMLNode* xmlRoot) {
     if (!xmlRoot) return "{}";
 
-    string effective = rootName.empty() ? xmlRoot->getName() : rootName;
+    string root = rootName.empty() ? xmlRoot->getName() : rootName;
     string result;
 
-    if (effective.empty())
-        return convertNode(xmlRoot, 0);
-
-    if (prettyPrint) {
-        result = "{\n  \"" + escapeJSONString(effective) + "\": ";
-        result += convertNode(xmlRoot, 1);
-        result += "\n}";
-    }
-    else {
-        result = "{\"" + escapeJSONString(effective) + "\":";
-        result += convertNode(xmlRoot, 0);
-        result += "}";
-    }
+    result += "{\n";
+    result += "  \"" + escapeJSONString(root) + "\": ";
+    result += convertNode(xmlRoot, 2);
+    result += "\n}";
 
     return result;
 }
+
 void XMLToJSONConverter::XMLToJSON(string& inputfile) {
     // 1. Read XML file
     string xmlContent = readFile(inputfile);
