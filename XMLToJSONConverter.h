@@ -20,7 +20,7 @@ private:
     bool isBoolean(const string& str);
     bool isNull(const string& str);
 
-    bool shouldBeArray(const vector<XMLNode*>& children);
+    bool shouldBeArray(const string &parentName, const vector<XMLNode *> &children);
     string convertArray(const vector<XMLNode*>& children, int depth);
 
     string convertNode(XMLNode* node, int depth);

@@ -84,28 +84,50 @@ bool XMLToJSONConverter::isNull(const string& str) {
     return str == "null";
 }
 
-bool XMLToJSONConverter::shouldBeArray(const vector<XMLNode*>& children) {
+bool XMLToJSONConverter::shouldBeArray(const string& parentName, const vector<XMLNode*>& children) {
     if (children.empty()) return false;
-    string first = children[0]->getName();
-    for (size_t i = 1; i < children.size(); i++)
-        if (children[i]->getName() != first) return false;
-    return true;
-}
 
+    // 1. Uniformity Check: All children must have the same tag name
+    string firstName = children[0]->getName();
+    for (size_t i = 1; i < children.size(); i++) {
+        if (children[i]->getName() != firstName) return false;
+    }
+
+    // 2. If there are multiple children, it is definitely an Array.
+    if (children.size() > 1) return true;
+
+    // 3. Handling Single Child Cases (The tricky part)
+    XMLNode* child = children[0];
+
+    // Case A: The child is a complex object (has its own children).
+    // Example: <followers><follower>...</follower></followers>
+    // Result: Array of Objects [ { ... } ]
+    if (child->hasChildren()) return true;
+
+    // Case B: The child is simple text, BUT the names imply a list.
+    // Example: <topics><topic>education</topic></topics>
+    // Logic: "topics" contains "topic" -> TRUE. Result: Array of Strings ["education"]
+    // Contrast: <follower><id>1</id> -> "follower" doesn't contain "id" -> FALSE. Result: Object {"id": "1"}
+    if (parentName.find(child->getName()) != string::npos) {
+        return true;
+    }
+
+    return false;
+}
 string XMLToJSONConverter::convertNode(XMLNode* node, int depth) {
-    // 1. Handle Leaf Nodes (Text)
     if (node->hasText() && !node->hasChildren())
         return convertTextContent(node);
 
-    // 2. Handle Object Nodes (Containers)
     if (node->hasChildren()) {
+        const auto& children = node->getChildren();
+
+        // FIX: Pass the current node's name as the "Parent Name"
+        if (shouldBeArray(node->getName(), children)) {
+            return convertArray(children, depth);
+        }
+
         string result = "{\n";
-        
-        // Convert children passing the current depth
         result += convertChildren(node, depth);
-        
-        // FIX: Use 'depth' (not depth - 1) for the closing brace.
-        // This ensures the '}' aligns vertically with the start of this block.
         result += makeIndent(depth) + "}"; 
         return result;
     }
@@ -115,7 +137,6 @@ string XMLToJSONConverter::convertNode(XMLNode* node, int depth) {
 
 string XMLToJSONConverter::convertChildren(XMLNode* node, int depth) {
     string result;
-    // Indent for the keys inside this object (one level deeper than the object itself)
     string childIndent = makeIndent(depth + 1);
 
     const auto& children = node->getChildren();
@@ -130,10 +151,15 @@ string XMLToJSONConverter::convertChildren(XMLNode* node, int depth) {
         result += "\"" + escapeJSONString(g.first) + "\": ";
 
         if (g.second.size() == 1) {
-            // Pass depth + 1 because the value creates a new context (either an object or a value)
-            result += convertNode(g.second[0], depth + 1);
+            XMLNode* singleChild = g.second[0];
+            
+            // FIX: Pass singleChild->getName() as the parent name here
+            if (singleChild->hasChildren() && shouldBeArray(singleChild->getName(), singleChild->getChildren())) {
+                result += convertArray(singleChild->getChildren(), depth + 1);
+            } else {
+                result += convertNode(singleChild, depth + 1);
+            }
         } else {
-            // Arrays are also a new context, so depth + 1
             result += convertArray(g.second, depth + 1);
         }
 
